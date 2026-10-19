@@ -1,32 +1,35 @@
-# Reproducibility and data access
+# Reproducing the analysis
 
-This release includes analysis code, generated result tables and figures, candidate screening scores, and a manifest recording source SHA-256 hashes, model configuration, dependency versions and generated-output hashes.
+The source code, model evaluation tables, candidate scores and figures are included in this repository. The [results manifest](../results/clean_study1/manifest.json) records the input SHA-256 hashes, feature order, model settings, library versions and hashes of the generated outputs.
 
-It **does not** include the original device matrices, curated ionic registry or exact PubChem retrieval snapshot. A clean checkout can inspect the derived evidence but cannot rebuild the complete analysis without reconstructing those inputs.
+## Inspecting released results
 
-## Install
-
-Use Python 3.13 and the pinned dependencies in `pyproject.toml`:
+With Python 3.13 and the packages listed in `pyproject.toml`:
 
 ```bash
-python -m venv .venv
-python -m pip install -e . pytest
+pip install -e . pytest
+python scripts/verify_results.py
+pytest -q tests/test_public_release.py tests/test_ionization.py tests/test_study1_diagnostics.py
 ```
 
-Once the source files listed in [data/README.md](../data/README.md) are present:
+The verification script checks the released figures and tables against the recorded hashes. The input-independent tests check ion representation, model-selection behavior and stored diagnostics.
+
+The main results are available without rerunning the analysis:
+
+- [Model comparison](../results/clean_study1/benchmark.csv) and [held-out predictions](../results/clean_study1/heldout_predictions.csv)
+- [Publication sensitivity](../results/clean_study1/positive_source_stability.csv) and [family diagnostics](../results/clean_study1/family_level_diagnostics.csv)
+- [Ten candidates](../results/clean_study1/shortlist.csv) and [full candidate scores](../results/clean_study1/candidate_scores.csv)
+
+## Rebuilding from source data
+
+The full build also requires the device matrices, ionic structure registry and PubChem retrieval snapshot listed in [data/README.md](../data/README.md). These files are stored separately from the public code.
+
+With the recorded inputs in place:
 
 ```bash
 python scripts/run_clean_study1.py --check
 python scripts/run_clean_study1.py --rebuild
-pytest -q tests/test_clean_study1.py tests/test_study1_diagnostics.py tests/test_ionization.py
+pytest -q tests/test_clean_study1.py
 ```
 
-`--check` validates that exact source/code/dependency fingerprint and checks the generated files against the manifest. `--rebuild` regenerates the entire results directory. Fresh PubChem retrievals may differ from the recorded pool and therefore are not a byte-for-byte reproduction.
-
-## Inspection without the raw data
-
-- [Evaluation](../results/clean_study1/benchmark.csv) and [held-out predictions](../results/clean_study1/heldout_predictions.csv).
-- [DOI sensitivity](../results/clean_study1/positive_source_stability.csv), [family diagnostics](../results/clean_study1/family_level_diagnostics.csv) and [source-disjoint diagnostic](../results/clean_study1/source_disjoint_summary.csv).
-- [Shortlist](../results/clean_study1/shortlist.csv), [candidate pool](../results/clean_study1/candidate_scores.csv) and [provenance manifest](../results/clean_study1/manifest.json).
-
-Prospective experimental verification has not yet been performed.
+`--check` compares the installed source files, code, environment and saved outputs with the manifest. `--rebuild` regenerates the results directory. A new PubChem retrieval or a different device-data release should be treated as a new input dataset; it may change the compound pool and model outputs.

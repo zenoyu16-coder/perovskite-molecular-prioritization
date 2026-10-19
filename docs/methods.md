@@ -1,37 +1,59 @@
-# Methods and interpretation
+# Methods
 
-## Cohort and prediction unit
+## Literature cohort
 
-The source contains 792 reported device entries. After restricting to a single verified spacer per record, 749 devices from 134 publications and 42 molecular spacer identities remain. Of these identities, 31 are monovalent and form the main prospective candidate-screening cohort.
+The source dataset contains 792 photovoltaic device records. We retained 749 records with one identified organic spacer, representing 42 spacer cations across 134 publications. The molecular-level dataset includes 31 monovalent and 11 divalent spacer identities.
 
-A device record is not an independent molecular-chemistry replicate. Targets, model splits and experimental decisions operate at the level of **spacer identity**; repeated devices and common DOIs create correlated evidence.
+Published device performance depends on absorber composition, architecture and processing. We therefore use a context-adjusted residual for the literature analysis, with the spacer molecule as the unit of ranking.
 
-## Context-adjusted chemistry labels
+## Context-adjusted labels
 
-A standardized ridge model (alpha = 10) uses a predefined set of composition, device architecture and processing features. DOI-grouped out-of-fold predictions provide PCE residuals, which are aggregated as a median by spacer. The upper quintile defines an exploratory high-residual label.
+A standardized ridge regression model (alpha = 10) is fitted to composition, device-architecture and processing features. DOI-grouped out-of-fold predictions are subtracted from measured PCE to obtain device residuals. Their median is calculated for each spacer; molecules above the training-cohort 80th percentile are labeled positive.
 
-Context fitting and label thresholds are reconstructed inside training-chemistry partitions. The resulting residual associations are **not causal effects** of spacer substitution; publication-level chemistry and processing effects cannot be fully separated in retrospective data.
+Within each held-out chemistry evaluation, the context model and residual threshold are refitted using the training subset. The residual captures associations with reported device performance after adjustment for available covariates. Processing differences that coincide with spacer identity may still contribute to the observed labels.
 
-## Molecular representations and validation
+## Molecular descriptors and evaluation
 
-All models use fixed ordered RDKit descriptors derived from charged ionic SMILES. The evaluated rankers are logistic regression with two or 35 descriptors and XGBoost with 35 descriptors, against constant-score and seeded random-order baselines.
+The training structures retain their reported ionic charge states. RDKit provides 35 ordered molecular descriptors. We compared logistic regression with two and 35 descriptors and an XGBoost model with 35 descriptors, alongside a constant-score baseline and seeded random rankings.
 
-Model evaluation comprises ten repeated five-fold held-out chemistry partitions, plus leave-one-family-out evaluation over eight monovalent families. Average precision is reported for pooled test predictions. Pooled family AP mixes scores from separately fitted models and cannot be read as eight independent within-family experiments.
+Two validation settings were used:
 
-The two-descriptor logistic model was selected after inspecting exploratory validation performance. Its reported AP is therefore **not independent of model selection**, and requires prospective validation.
+- Ten repetitions of five-fold splits by spacer identity.
+- Leave-one-molecular-family-out evaluation across eight monovalent families.
 
-## Literature-source sensitivity
+Average precision (AP), AUROC and top-20% enrichment are recorded in [benchmark.csv](../results/clean_study1/benchmark.csv), with individual test predictions in [heldout_predictions.csv](../results/clean_study1/heldout_predictions.csv).
 
-Five of seven positive monovalent molecular identities occur in only one DOI. Removing that DOI removes direct evidence for the chemical identity. A separate source-disjoint test removes publications shared by held-out chemistries; this also changes training composition and label support. Only two monovalent held-out families contain both classes, making general claims about within-family transfer premature.
+The two-descriptor logistic model uses MolLogP and carbon-heavy-atom fraction. It was selected after exploratory comparisons of the held-out results. Its measured AP is consequently an exploratory estimate. Prospective screening will test the selected model on new compounds.
 
-## Candidate selection
+## Publication and family sensitivity
 
-13,595 PubChem records were retrieved; 2,087 eligible monovalent ionic candidates remain after chemical filtering. A fixed logistic ranker is bootstrapped 30 times. A combined priority incorporates model-score ranking, model variability, synthetic accessibility, empirical domain proximity and novelty; a diversity selection produces ten candidates.
+Five of the seven positive monovalent spacer identities are supported by a single publication. For these molecules, deleting the only DOI leaves no independent observation with which to recompute the label. For multiply reported spacers, publication deletion recalculates both the context model and the threshold.
 
-The score is an **uncalibrated ranking output**, not a probability of high-PCE fabrication. Final shortlist ordering is diversity-selection order rather than descending score. All ten candidates fall in the current empirical moderate-extrapolation category, whose thresholds have not been prospectively calibrated.
+A separate source-disjoint analysis removes publications that contain held-out spacer identities from each training set. This procedure also reduces the available training population. Family-holdout diagnostics are included because only two of the eight monovalent families contain both positive and negative labels under the fold-specific targets.
 
-## Next experiment
+[Publication-deletion results](../results/clean_study1/positive_source_stability.csv) · [Source-disjoint summary](../results/clean_study1/source_disjoint_summary.csv) · [Family diagnostics](../results/clean_study1/family_spacer_diagnostics.csv)
 
-Prespecify identities and ranking scores. Test higher-ranked compounds against matched lower-ranked and score-blind controls under one fixed fabrication recipe, randomized by device position and manufacturing batch. Analyze the molecule, not individual devices, as the independent ranking unit.
+## Molecular screening
 
-See [experimental validation](experimental-validation.md) and [reproducibility](reproducibility.md).
+A PubChem retrieval produced 13,595 records. The candidate-ionization procedure applies an amine-site protonation rule to neutral precursors and retains compatible molecular species. Of 3,296 eligible ions, 2,087 are monovalent and enter the main screen.
+
+Thirty bootstrap fits of the selected two-descriptor logistic model provide mean candidate scores and score variation. The selection procedure combines the score with estimated synthetic accessibility, descriptor/fingerprint similarity to measured spacers and structural novelty:
+
+| Screen | Molecules |
+| --- | ---: |
+| Monovalent candidates | 2,087 |
+| Top score quintile | 418 |
+| Non-strong-extrapolation domain | 715 |
+| Score, domain and accessibility intersection | 121 |
+| Pareto selection | 74 |
+| Diversity shortlist | 10 |
+
+The score and domain filters are evaluated on the same 2,087-compound pool; their individual counts should not be read as successive exclusions. Model scores have not been calibrated to device success, and the domain thresholds have not been tested against prospective prediction errors. Final ranks indicate diversity-selection order.
+
+[Candidate score table](../results/clean_study1/candidate_scores.csv) · [Shortlist](../results/clean_study1/shortlist.csv)
+
+## Experimental test
+
+The planned experiment evaluates twelve new compounds: four high-ranked, four matched middle/low-ranked and four score-blind selections. Two known spacer references are included in every fabrication batch. Batch-adjusted PCE, rank correlation and enrichment at a fixed selection budget are the primary comparisons.
+
+The complete experimental design is in [experimental-validation.md](experimental-validation.md). See [reproducibility.md](reproducibility.md) for the source files and analysis environment.

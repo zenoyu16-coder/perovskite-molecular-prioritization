@@ -1,84 +1,72 @@
-# Literature-guided prioritization of organic spacer cations for layered perovskite solar cells
+# Molecular prioritization of organic spacers for layered perovskite solar cells
 
-Research code, retrospective evaluation and a prospective molecular shortlist.
+Organic spacer cations influence the structure and performance of layered halide perovskites, but published device results cover relatively few distinct molecules. This project uses molecular descriptors and reported solar-cell measurements to rank spacer candidates for experimental screening.
 
-Organic spacer selection in layered halide perovskites is usually studied one chemistry at a time. This project asks whether published photovoltaic device results contain enough information to **prioritize candidate spacer cations**, after accounting for variation in device composition, processing and publication source.
+The dataset contains 749 qualifying devices from 134 publications and 42 identified spacer cations, including 31 monovalent cations. The analysis combines publication-aware adjustment of device performance, molecular-level validation, and screening of PubChem-derived amine candidates.
 
-The analysis is exploratory. It is intended to guide a controlled experiment, not to predict a new molecule's power conversion efficiency (PCE) from its structure alone.
+## Dataset and methods
 
-## At a glance
+The device data were assembled from [Choi et al., *Solar Energy* 303 (2026) 114112](https://doi.org/10.1016/j.solener.2025.114112) and the associated [data deposit](https://doi.org/10.7924/r40g3xh1d).
 
-| Dataset | Evaluation | Screening |
-| --- | --- | --- |
-| 749 qualifying devices from 134 publications | Spacer-held-out and leave-one-family-out tests | 13,595 PubChem retrieval records |
-| 42 verified cations; 31 monovalent | Fixed logistic and XGBoost baselines | 2,087 eligible monovalent candidates |
-| 35 RDKit molecular descriptors | Source and family sensitivity analyses | 10 diversity-selected candidates |
+We retained records with one identified spacer cation and represented each reported ionic species with 35 RDKit descriptors. A ridge regression model accounts for device composition, architecture and processing conditions. DOI-grouped out-of-fold PCE residuals are aggregated by spacer identity; molecules above the 80th percentile form the positive class.
 
-### Retrospective evaluation
+Logistic regression with two or 35 descriptors and XGBoost with 35 descriptors were compared using repeated held-out spacer splits and leave-one-molecular-family-out evaluation. Context fitting and label thresholds are recalculated within the training partitions.
 
-![Average precision under held-out chemistry and family evaluations](results/clean_study1/evaluation.png)
+[Methods](docs/methods.md) · [Chemical representation](docs/chemical-representation.md)
 
-For the 31 monovalent spacers, the two-descriptor logistic model obtained **AP 0.420** in repeated chemistry holdouts and **AP 0.462** in leave-one-family-out evaluation, versus **0.285** and **0.292** for random ranking, respectively.
+## Model evaluation
 
-These values are **not unbiased prospective performance estimates**: model selection was informed by exploratory examination of the evaluation results. In addition, five of seven positive monovalent identities are supported by only one publication, and family-level performance is heterogeneous. The present evidence does not establish transferability to new molecular families or device processes.
+![Average precision across chemistry and family holdouts](results/clean_study1/evaluation.png)
 
-[Evaluation table](results/clean_study1/benchmark.csv) · [Held-out predictions](results/clean_study1/heldout_predictions.csv) · [Source sensitivity](results/clean_study1/positive_source_stability.csv)
+Average precision (AP) for the 31 monovalent spacers:
 
-### Molecular screening
+| Model | Chemistry holdout | Family holdout |
+| --- | ---: | ---: |
+| Random ranking | 0.285 | 0.292 |
+| Logistic regression, 2 descriptors | 0.420 | 0.462 |
+| Logistic regression, 35 descriptors | 0.449 | 0.398 |
+| XGBoost, 35 descriptors | 0.412 | 0.431 |
 
-![Ten selected monovalent spacer cations](results/clean_study1/candidate_structures.png)
+The two-descriptor logistic model (MolLogP and carbon-heavy-atom fraction) was retained for candidate screening. Model choice followed inspection of the exploratory validation results, so the AP values should be read as model comparisons pending an independent experimental test.
 
-A fixed candidate-ionization and screening workflow selects ten structurally diverse monovalent cations. Their scores are **uncalibrated ranking scores, not device-success probabilities**. All ten candidates occupy an empirical *moderate-extrapolation* region rather than a validated applicability domain.
+Publication coverage remains uneven: five of the seven positive monovalent spacers have device evidence from only one DOI. The source-deletion and family-holdout analyses are provided alongside the main results.
 
-[Shortlist with PubChem IDs](results/clean_study1/shortlist.csv) · [Scored candidate pool](results/clean_study1/candidate_scores.csv) · [Selection counts](results/clean_study1/screening_counts.json)
+[Full benchmarks](results/clean_study1/benchmark.csv) · [Held-out predictions](results/clean_study1/heldout_predictions.csv) · [Publication sensitivity](results/clean_study1/positive_source_stability.csv) · [Family diagnostics](results/clean_study1/family_level_diagnostics.csv)
 
-## Approach
+## Candidate screening
 
-1. Curate ionic spacer identities and corresponding published device records.
-2. Fit a DOI-aware device-context model; aggregate context-adjusted PCE residuals by molecular identity.
-3. Derive training-fold-specific spacer labels; evaluate molecular descriptors with held-out chemistry and family partitions.
-4. Apply the selected exploratory ranker to a filtered PubChem-derived monovalent ion pool.
-5. Select a chemically diverse experimental shortlist subject to synthesis and applicability constraints.
+![Structures of the ten selected spacer candidates](results/clean_study1/candidate_structures.png)
 
-The code preserves ionic charge states for measured spacer species and uses an explicitly defined amine-protonation rule for neutral candidate precursors. Model performance is assessed at the **molecule** level rather than treating devices fabricated with the same spacer as independent chemical examples.
+The virtual screen starts from 13,595 PubChem retrieval records. Chemical filtering yields 3,296 eligible ionic structures, of which 2,087 are monovalent. Candidates are scored with 30 bootstrap fits of the selected logistic model and filtered by model score, molecular similarity to training spacers, and estimated synthetic accessibility. The intersection retains 121 molecules; Pareto filtering reduces this to 74, followed by diversity selection of ten structures.
 
-See [methods and interpretation](docs/methods.md), [chemical representation](docs/chemical-representation.md) and the [prospective test plan](docs/experimental-validation.md).
+The ten selected molecules fall within the empirically defined moderate-extrapolation range, with maximum Morgan similarity to a training monovalent spacer of approximately 0.31–0.41. The model scores are uncalibrated, and the shortlist order reflects diversity selection rather than descending predicted score.
 
-## Reproducing the analysis
+[Ten-molecule shortlist](results/clean_study1/shortlist.csv) · [All monovalent candidate scores](results/clean_study1/candidate_scores.csv) · [Screening counts](results/clean_study1/screening_counts.json)
 
-Validate the published artifact hashes without source-data access:
+## Experimental follow-up
+
+The proposed validation compares four high-ranked candidates with four chemically matched middle- or lower-ranked candidates and four score-blind selections. Two established spacer compounds serve as batch references. The plan uses a common fabrication procedure, three independent batches and six devices per chemistry per batch, with PCE evaluated at the molecular level.
+
+Fabrication and prospective model testing have not yet been performed.
+
+[Experimental protocol](docs/experimental-validation.md)
+
+## Code and data
 
 ```bash
-python scripts/verify_results.py
-```
-
-The published directory [`results/clean_study1/`](results/clean_study1/) contains model comparisons, source diagnostics, candidate scores, figures and an input/output fingerprint manifest.
-
-```bash
-# Python 3.13; use a clean virtual environment
+# Python 3.13
 pip install -e . pytest
 
-# Requires the original, locally prepared source matrices and PubChem pool
+# Check the released tables and figures against their SHA-256 hashes
+python scripts/verify_results.py
+
+# With the original input matrices and PubChem pool available
 python scripts/run_clean_study1.py --check
 python scripts/run_clean_study1.py --rebuild
 ```
 
-**Data availability:** the original device data are described in [Choi et al., *Solar Energy* 303 (2026) 114112](https://doi.org/10.1016/j.solener.2025.114112) and the associated [Duke repository](https://doi.org/10.7924/r40g3xh1d). This GitHub repository provides derived results and software, **not** the full source matrices, verified ionic registry or PubChem retrieval snapshot. Rebuilding requires reconstructing the exact source inputs listed in [data requirements](data/README.md); it cannot be run from a fresh clone alone.
+The repository includes the analysis code, generated results, model diagnostics and candidate structures. The complete source matrices, curated ionic registry and original PubChem snapshot are kept separately; rebuilding requires the exact inputs described in [data/README.md](data/README.md). Source and output fingerprints are recorded in the [results manifest](results/clean_study1/manifest.json).
 
-The input/output SHA-256 values and dependency versions are recorded in [manifest.json](results/clean_study1/manifest.json). Current result files have not been independently validated by a new device-fabrication experiment.
+The main entry point is [`scripts/run_clean_study1.py`](scripts/run_clean_study1.py). Molecular feature generation and model evaluation are in [`src/perovskite_prioritization/`](src/perovskite_prioritization/), with tests in [`tests/`](tests/).
 
-## Repository guide
-
-| Path | Contents |
-| --- | --- |
-| [`src/perovskite_prioritization/`](src/perovskite_prioritization/) | Ionic chemistry, feature construction, model evaluation, diagnostics |
-| [`scripts/`](scripts/) | Analysis entry point and PubChem pool retrieval |
-| [`results/clean_study1/`](results/clean_study1/) | Figures, validation tables, shortlist and provenance manifest |
-| [`docs/`](docs/) | Methods, caveats and prospective validation |
-| [`tests/`](tests/) | Unit and input-dependent integration checks |
-
-## Status
-
-**Retrospective computational study; experimental screening proposed, not completed.** The immediate next scientific test is a controlled, batch-replicated comparison of high-ranked candidates, matched low-ranked candidates and score-blind selections.
-
-Released as research software under the [MIT License](LICENSE). Citation metadata are in [CITATION.cff](CITATION.cff).
+[Reproducibility notes](docs/reproducibility.md) · [License](LICENSE) · [Citation](CITATION.cff)

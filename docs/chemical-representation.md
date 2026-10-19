@@ -1,9 +1,11 @@
-# Ionic chemical representation
+# Chemical representation
 
-The molecular rankers operate on descriptors of **explicitly charged spacer species**. The training registry retains the reported ionic identities, including monovalent and divalent cations; uniformly protonating those structures would change their chemistry.
+The 42 literature spacers are represented using their reported ionic structures. The dataset includes monovalent and divalent cations, with charged nitrogen environments spanning alkylammonium, aromatic and other ionic groups. RDKit descriptors and Morgan fingerprints are calculated from the charged structures.
 
-Neutral PubChem precursors are converted to candidate ions through the fixed `amine_only_v2` rule. It selects eligible amine sites while avoiding indiscriminate protonation of aromatic or resonance-deactivated nitrogen environments. The main virtual screening is restricted to singly charged candidates.
+For screening, PubChem supplies neutral precursor SMILES. The `amine_only_v2` rule identifies eligible amines and generates corresponding cationic structures. Aromatic ring nitrogens and resonance-deactivated sites, such as sulfonamides, are excluded from automatic amine protonation.
 
-This transformation is a reproducible cheminformatics convention, **not** experimental evidence of solution speciation, precursor salt chemistry or the crystallized ionic state of any proposed molecule.
+The main candidate pool is restricted to singly charged cations. Their predicted ranking, synthetic accessibility and similarity to previously measured spacers are calculated on the same ionic representation.
 
-[Training ion descriptors](../results/clean_study1/ionic_training_descriptors.csv) · [Build manifest](../results/clean_study1/manifest.json)
+The generated ionic SMILES specify the structures used for modelling. Precursor salts, solution speciation and incorporation into a layered perovskite remain subjects for experimental characterization.
+
+[Training descriptors](../results/clean_study1/ionic_training_descriptors.csv) · [Model configuration](../results/clean_study1/manifest.json)
