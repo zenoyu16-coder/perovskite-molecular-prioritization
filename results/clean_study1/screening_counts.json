@@ -1,0 +1,11 @@
+{
+  "source_raw_query": 13595,
+  "eligible_ions": 3296,
+  "monocation_pool": 2087,
+  "top_score_quintile": 418,
+  "non_strong_domain": 715,
+  "score_domain_sa_intersection": 121,
+  "pareto": 74,
+  "diversity_preliminary": 20,
+  "final": 10
+}

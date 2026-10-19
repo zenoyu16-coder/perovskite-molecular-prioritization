@@ -1,0 +1,14 @@
+protocol,fold,test_spacers,test_DOIs,overlapping_DOIs,source_train_rows_before,source_train_rows_after,chemistry_train_before,chemistry_train_after,status,target_cutoff,heldout_positives,test_label_changes
+family_ood,0,5,42,9,459,427,26,21,evaluated,4.767552401806555,0,0
+family_ood,1,1,1,1,645,643,30,30,evaluated,5.844318064492656,0,1
+family_ood,2,1,2,1,640,636,30,30,evaluated,5.191317887745422,0,0
+family_ood,3,7,7,1,606,605,24,24,evaluated,3.0177289340539257,6,1
+family_ood,4,5,5,4,624,615,26,26,evaluated,5.993272119332051,0,0
+family_ood,5,4,5,1,613,611,27,27,evaluated,7.179029435605353,1,0
+family_ood,6,6,64,6,359,344,25,21,evaluated,4.345566609689477,0,0
+family_ood,7,2,8,0,583,583,29,29,evaluated,6.139906925266651,0,0
+nested,0,7,43,9,455,430,24,20,evaluated,4.649836888409528,2,1
+nested,1,6,10,4,575,557,25,23,evaluated,4.663153416454154,1,0
+nested,2,6,62,7,381,361,25,21,evaluated,3.1635208586182584,3,3
+nested,3,6,9,3,587,572,25,24,evaluated,6.56169911361755,3,0
+nested,4,6,12,3,590,571,25,23,evaluated,6.053765823905649,1,0

@@ -1,0 +1,20 @@
+{
+  "selected_model": "logistic2",
+  "selection_rule": "exploratory_frozen_logistic2_after_inspecting_outer_scores",
+  "selection_evidence": "exploratory_post_selection_comparison",
+  "selection_test_independent": false,
+  "unbiased_generalization_estimate_available": false,
+  "prospective_validation_required": true,
+  "exploratory_AP_minimum_gain_over_same_cohort_random": {
+    "xgboost35": 0.1268436502435345,
+    "logistic35": 0.10596395036064682,
+    "logistic2": 0.1346541170090373
+  },
+  "training_cohort": "mono31",
+  "training_n": 31,
+  "train_positive": 7,
+  "source_training_labels": "DOI OOF context uplift within mono31 only",
+  "probability_note": "Uncalibrated classifier output; not a probability of experimental success",
+  "candidate_rank_note": "final_rank is the order of diversity selection, not a sorted model score",
+  "applicability_note": "Empirical descriptor and fingerprint rules, not calibrated prediction error"
+}

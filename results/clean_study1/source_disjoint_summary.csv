@@ -1,0 +1,3 @@
+protocol,n_heldout_spacers,n_expected_spacers,complete_panel,n_source_disjoint_folds,n_positive_original_labels,n_positive_source_disjoint_labels,n_test_label_changed,original_protocol_AP,source_disjoint_AP,interpretation
+nested,31,31,True,5,6,10,4,0.24635521885521883,0.5232267732267732,sensitivity_relabel_and_retrain_not_prospective_performance
+family_ood,31,31,True,8,7,7,2,0.4620181405895692,0.53623540325221,sensitivity_relabel_and_retrain_not_prospective_performance

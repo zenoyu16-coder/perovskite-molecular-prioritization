@@ -1,0 +1,9 @@
+name: perovskite-prioritization
+channels:
+  - conda-forge
+dependencies:
+  - python=3.13
+  - pip
+  - pip:
+      - -e .
+      - pytest==9.0.2

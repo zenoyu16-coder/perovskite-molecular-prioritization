@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If you reuse the code or derived data, please cite this repository and the original device-data source."
+title: "Literature-guided prioritization of organic spacer cations for layered perovskite solar cells"
+type: software
+authors:
+  - family-names: "Yu"
+    given-names: "Min-Chun"
+version: 1.0.0
+keywords:
+  - layered perovskites
+  - organic spacer cations
+  - molecular prioritization
+  - molecular descriptors
+  - photovoltaic devices
+license: MIT

@@ -1,0 +1,7 @@
+# Generated research outputs are preserved byte-for-byte for SHA-256 provenance checks.
+results/clean_study1/* -text
+
+# Versioned text source files retain their normal Git text handling.
+*.py text
+*.md text
+*.toml text
