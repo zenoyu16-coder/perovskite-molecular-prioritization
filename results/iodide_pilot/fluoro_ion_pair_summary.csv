@@ -1,0 +1,3 @@
+group,cid,n_success,n_distinct_CREST_conformers,n_within_0_5kcal,cation_min_Eh,pair_min_Eh,association_kcal_mol,best_I_partial_charge,best_N_I_A,best_internal_N_O_A,best_internal_N_H_O_deg,best_internal_Hbond
+fluoromethoxy_A,40786958,7,3,2,-34.126214250,-38.296471698,-17.435929170,-0.803172210,3.270423293,2.776415568,126.961358982,False
+fluoromethoxy_B,24721203,33,11,8,-34.124069770,-38.296783736,-18.977417810,-0.776107340,3.251330417,5.352616728,114.038605480,False

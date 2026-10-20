@@ -51,7 +51,7 @@ Two positional-isomer pairs in the shortlist have identical scores from the sele
 
 For the meta isomer, none of the 11 CREST conformers within 3 kcal/mol of the minimum has an intramolecular N–H···O contact. All four low-energy ortho conformers meet the same geometric criterion. PBE0 single-point calculations on the lowest structures, with an implicit DMF dielectric, place the ortho isomer 3.46 kcal/mol below the meta isomer in electronic energy.
 
-The calculations identify a conformational difference that is absent from the molecular ranker. Its effect on ammonium–iodide coordination and device processing remains to be investigated.
+Calculations of the corresponding iodide ion pairs in implicit DMF favor the sulfonyl meta isomer by 3.58 kcal/mol (GFN2-xTB) and 3.64 kcal/mol (PBE0/def2-SVP fixed-geometry single points). A second positional-isomer pair shows a 1.54 kcal/mol preference for isomer B using GFN2-xTB. These electronic energies are specific to the isolated ion-pair model. [Ion-pair calculations](docs/iodide_association.md).
 
 [Computational methods and results](docs/quantum_chemistry.md) · [CREST conformer data](results/quantum_pilot/crest_conformers.csv) · [DFT energies](results/quantum_pilot/dft_singlepoints.csv)
 

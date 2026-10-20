@@ -1,0 +1,27 @@
+{
+  "method": "GFN2-xTB/ALPB(DMF) vs gas",
+  "model": "monocation (+1) and isolated iodide (-1) to neutral contact ion pair",
+  "coefficients": "all species at GFN2-xTB 6.7.1; electronic energies only; no thermal corrections",
+  "charge_check": "xTB charge on iodine; inspect ion-pair covalency/charge transfer",
+  "energy_differences": [
+    {
+      "medium": "dmf",
+      "ortho_minus_meta_association_kcal_mol": 3.5780043602816676,
+      "ortho_minus_meta_pair_total_kcal_mol": -1.9786171323674562,
+      "ortho_minus_meta_monomer_total_kcal_mol": -5.556621492649121
+    },
+    {
+      "medium": "gas",
+      "ortho_minus_meta_association_kcal_mol": 17.38011317134638,
+      "ortho_minus_meta_pair_total_kcal_mol": -2.80002487143697,
+      "ortho_minus_meta_monomer_total_kcal_mol": -20.180138042783355
+    }
+  ],
+  "important_limits": [
+    "implicit solvent pair and separated-ion energies lack association entropy",
+    "unequal number of accepted initial poses: meta 33, ortho 9",
+    "starting geometries along three NH axes only",
+    "free cations sampled with CREST in DMF and ETKDG+xTB in gas",
+    "only one explicit I- and no periodic PbI4 environment"
+  ]
+}

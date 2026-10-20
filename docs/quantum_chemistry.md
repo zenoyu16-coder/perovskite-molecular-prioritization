@@ -29,7 +29,7 @@ For the two methylsulfonylbenzylammonium isomers, CREST 3.0.2 sampled additional
 
 The contact criterion is N···O < 3.3 Å, H···O < 2.5 Å, and N–H···O angle ≥ 130°. The ortho cation favors a geometry with a local ammonium–sulfonyl oxygen contact; the meta cation does not access an analogous contact in the sampled low-energy ensemble.
 
-The second isomer pair shows the same kind of geometric contrast in the initial xTB optimizations (minimum-energy N···O separations of 2.72 and 5.41 Å in ALPB(DMF)). CREST sampling has not yet been performed for that pair.
+The second isomer pair shows the same kind of geometric contrast in the initial xTB optimizations (minimum-energy N···O separations of 2.72 and 5.41 Å in ALPB(DMF)). CREST sampling and the subsequent iodide-interaction comparison are included in [the ion-pair study](iodide_association.md).
 
 [CREST conformer data](../results/quantum_pilot/crest_conformers.csv) · [GFN2-xTB records](../results/quantum_pilot/xtb_conformers.csv) · [Optimized CREST ensembles](../results/quantum_pilot/crest_ensembles/)
 

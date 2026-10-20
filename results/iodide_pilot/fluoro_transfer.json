@@ -1,0 +1,20 @@
+{
+  "test": "Fluoromethoxybenzylammonium A vs B: external preselected rank-tied regioisomer challenge",
+  "environment": "GFN2-xTB 6.7.1 ALPB(DMF), monocation+I- to neutral ion pair",
+  "prediction": "Isomer A forms a nearby intramolecular ammonium-O contact in the free cation and should have less favorable iodide association than B",
+  "a_minus_b_electronic_association_kcal_mol": 1.5414886399639585,
+  "expected_positive": true,
+  "observed_positive": true,
+  "n_optimized_ion_pairs": 40,
+  "pose_sampling_counts": {
+    "fluoromethoxy_A": 7,
+    "fluoromethoxy_B": 33
+  },
+  "limitations": [
+    "One continuum solvent model and only GFN2-xTB for transfer pair",
+    "Unequal accepted starting-pose counts (A=7, B=33), so lowest-state search may favor B",
+    "Ammonium-O contact in A weakens upon external iodide coordination and may fail angular contact criterion",
+    "Absolute association enthalpies/free energies not obtained; no Pb-I framework"
+  ],
+  "method": "Lowest optimized ion-pair electronic energy minus lowest CREST free-cation energy and isolated I- electronic energy, same xTB/solvent model"
+}

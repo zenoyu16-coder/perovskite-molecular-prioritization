@@ -1,0 +1,18 @@
+{
+  "model": "(+1 organic cation and -1 iodide) ion pair in implicit DMF",
+  "relative_association_energy_definition": "(ortho pair-meta pair)-(ortho cation-meta cation)",
+  "pbe0_def2svp_ddcosmo": {
+    "delta_pair_kcal_mol": 0.18089574776667822,
+    "delta_cation_kcal_mol": -3.4561009592688694,
+    "delta_association_kcal_mol": 3.636996707035548,
+    "n_ion_pair_scf_converged": 2,
+    "iodine_ECP": "def2-svp ECP28"
+  },
+  "gfn2_xtb_alpb_dmf": {
+    "delta_association_kcal_mol": 3.5780043602816676
+  },
+  "agreement_on_sign": true,
+  "interpretation": "Positive sign: stronger electronic iodide association for meta; negative: ortho",
+  "fixed_geometry_limitation": "DFT only single points at GFN2-xTB optimized geometries",
+  "uncertainty": "No free energies, solvent molecules, method convergence, BSSE correction or periodic perovskite"
+}

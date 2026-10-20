@@ -1,0 +1,5 @@
+group,medium,n_optimized,n_external_Hbond,lowest_pair_Eh,cation_reference_Eh,iodide_reference_Eh,association_kcal_mol,best_N_I_A,best_min_H_I_A,best_N_H_I_angle_deg,best_internal_Hbond,n_within_2kcal,n_low_ion_pairs_retain_internalHB,lowest_iodide_partial_charge,best_source
+sulfonyl_meta,dmf,33,33,-41.366935682,-37.191801770,-4.142471526,-20.495956830,3.289015408,2.174318434,179.173920630,False,24,0,-0.804884560,iodide_association/sulfonyl_meta/conf_005/site_3/dmf/xtbopt.xyz
+sulfonyl_meta,gas,33,33,-41.332267480,-37.072785373,-4.060355599,-124.953770180,3.357265932,1.613423258,175.568368048,False,25,0,-0.313332320,iodide_association/sulfonyl_meta/conf_006/site_2/gas/xtbopt.xyz
+sulfonyl_ortho,dmf,9,9,-41.370088809,-37.200656810,-4.142471526,-16.917952469,3.274399065,2.163423494,175.084795666,True,8,8,-0.812779930,iodide_association/sulfonyl_ortho/conf_002/site_1/dmf/xtbopt.xyz
+sulfonyl_ortho,gas,9,9,-41.336729604,-37.104944470,-4.060355599,-107.573657009,3.326479117,1.619365627,176.708441295,True,9,9,-0.323686720,iodide_association/sulfonyl_ortho/conf_004/site_3/gas/xtbopt.xyz
