@@ -1,0 +1,9 @@
+group,medium,n_runs,best_conformer,best_energy_Eh,best_N_O_A,best_H_O_A,best_N_H_O_deg,best_hbond,low_3kcal_starts,low_3kcal_hbond_starts
+fluoromethoxy_A,dmf,1,1,-34.1261465,2.7196447,1.9283255,130.7491349,True,1,1
+fluoromethoxy_A,gas,1,1,-34.0266201,2.6390649,1.7620259,138.3753632,True,1,1
+fluoromethoxy_B,dmf,2,1,-34.1239980,5.4072622,4.9130558,113.5885601,False,2,0
+fluoromethoxy_B,gas,2,1,-34.0159295,5.3694884,4.8501935,115.1914518,False,2,0
+sulfonyl_meta,dmf,4,4,-37.1917441,5.4669649,4.7289705,131.6781304,False,4,0
+sulfonyl_meta,gas,4,4,-37.0727854,4.7828486,3.8659497,149.2499532,False,4,0
+sulfonyl_ortho,dmf,6,5,-37.2006769,2.6063171,1.6271669,151.5490326,True,6,6
+sulfonyl_ortho,gas,6,3,-37.1049445,2.5567249,1.4883676,162.5252915,True,4,4

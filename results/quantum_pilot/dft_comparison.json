@@ -1,0 +1,17 @@
+{
+  "model": "two isolated isomeric cations in implicit DMF",
+  "dft_method": "PySCF 2.11.0 PBE0/def2-SVP, density fitting, ddCOSMO eps=36.7",
+  "geometry": "lowest CREST GFN2-xTB/ALPB(DMF) conformer; fixed",
+  "dft_ortho_minus_meta_kcal_mol": -3.4561009592688694,
+  "xtb_ortho_minus_meta_kcal_mol": -5.556621492649121,
+  "n_converged_scf": 2,
+  "interpretation": "Relative electronic energies of positional isomers at two electronic-structure levels",
+  "not_assessed": [
+    "periodic incorporation",
+    "iodide binding",
+    "formation free energy",
+    "device power conversion efficiency",
+    "DFT optimized geometries",
+    "dispersion correction and basis set convergence"
+  ]
+}

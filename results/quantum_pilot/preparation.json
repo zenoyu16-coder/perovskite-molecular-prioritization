@@ -1,0 +1,51 @@
+{
+  "title": "Position-isomer pilot from frozen Study 1 shortlist",
+  "initial_method": "RDKit ETKDGv3 + MMFF94s",
+  "rdkit_version": "2026.03.5",
+  "seed": 20261020,
+  "n_requested_embeddings": 90,
+  "heavy_atom_rms_cutoff_A": 0.65,
+  "energy_window_kcal_mol": 18.0,
+  "charge": 1,
+  "total_selected": 13,
+  "shortlist_sha256": "a3a8bbcc1c49b789de82b0227916107b4225fc45105c173ac3d1d1ae74b67975",
+  "groups": [
+    {
+      "group": "sulfonyl_meta",
+      "cid": 2760937,
+      "smiles": "CS(=O)(=O)c1cccc(C[NH3+])c1",
+      "n_embedded": 4,
+      "n_optimized": 4,
+      "n_selected": 4,
+      "best_MMFF94s_kcal_mol": 37.05090592997687
+    },
+    {
+      "group": "sulfonyl_ortho",
+      "cid": 16218335,
+      "smiles": "CS(=O)(=O)c1ccccc1C[NH3+]",
+      "n_embedded": 9,
+      "n_optimized": 9,
+      "n_selected": 6,
+      "best_MMFF94s_kcal_mol": 9.843348459134797
+    },
+    {
+      "group": "fluoromethoxy_A",
+      "cid": 40786958,
+      "smiles": "COc1cccc(F)c1C[NH3+]",
+      "n_embedded": 3,
+      "n_optimized": 3,
+      "n_selected": 1,
+      "best_MMFF94s_kcal_mol": -9.778874302221544
+    },
+    {
+      "group": "fluoromethoxy_B",
+      "cid": 24721203,
+      "smiles": "COc1cc(F)cc(C[NH3+])c1",
+      "n_embedded": 4,
+      "n_optimized": 4,
+      "n_selected": 2,
+      "best_MMFF94s_kcal_mol": 3.931967024822443
+    }
+  ],
+  "status": "MMFF_CONFORMERS_ONLY; no xTB/DFT yet"
+}

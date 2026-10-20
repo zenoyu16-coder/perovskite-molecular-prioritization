@@ -1,0 +1,20 @@
+{
+  "source": "Study 1 frozen shortlist, CID groups",
+  "method": "RDKit ETKDGv3/MMFF94s -> GFN2-xTB geometry optimization",
+  "xtb_version": "6.7.1",
+  "total_runs": 26,
+  "n_successful": 26,
+  "environments": [
+    "gas",
+    "ALPB(dmf)"
+  ],
+  "charge": 1,
+  "unpaired_electrons": 0,
+  "hartree_to_kcal": 627.509474,
+  "intramolecular_contact": "same-cation N-H..O, N-O<3.3 A, H-O<2.5 A, angle N-H-O>=130deg",
+  "sampling_note": "Number of optimized starting structures; do not count them as unique energy minima or Boltzmann populations",
+  "raw_output_path": "external scratch directory configured via STUDY1_QM_WORKDIR",
+  "calculation_level": "semiempirical quantum chemistry, not DFT",
+  "scope": "gas-phase isolated cations and implicitly solvated cations; no counterions, explicit solvent or Pb-I environment",
+  "limitation": "ETKDG/MMFF starting conformers; conformational sampling is provisional, no CREST exhaustive search"
+}

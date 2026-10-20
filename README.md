@@ -43,6 +43,18 @@ The ten selected molecules fall within the empirically defined moderate-extrapol
 
 [Ten-molecule shortlist](results/clean_study1/shortlist.csv) · [All monovalent candidate scores](results/clean_study1/candidate_scores.csv) · [Screening counts](results/clean_study1/screening_counts.json)
 
+## Quantum-chemical comparison
+
+Two positional-isomer pairs in the shortlist have identical scores from the selected two-descriptor model. We examined their conformations using RDKit, GFN2-xTB, and CREST; the methylsulfonylbenzylammonium pair was also evaluated with PBE0/def2-SVP single-point DFT.
+
+![CREST conformers of the methylsulfonylbenzylammonium isomers](results/quantum_pilot/crest_isomer_conformations.png)
+
+For the meta isomer, none of the 11 CREST conformers within 3 kcal/mol of the minimum has an intramolecular N–H···O contact. All four low-energy ortho conformers meet the same geometric criterion. PBE0 single-point calculations on the lowest structures, with an implicit DMF dielectric, place the ortho isomer 3.46 kcal/mol below the meta isomer in electronic energy.
+
+The calculations identify a conformational difference that is absent from the molecular ranker. Its effect on ammonium–iodide coordination and device processing remains to be investigated.
+
+[Computational methods and results](docs/quantum_chemistry.md) · [CREST conformer data](results/quantum_pilot/crest_conformers.csv) · [DFT energies](results/quantum_pilot/dft_singlepoints.csv)
+
 ## Experimental follow-up
 
 The proposed validation compares four high-ranked candidates with four chemically matched middle- or lower-ranked candidates and four score-blind selections. Two established spacer compounds serve as batch references. The plan uses a common fabrication procedure, three independent batches and six devices per chemistry per batch, with PCE evaluated at the molecular level.
