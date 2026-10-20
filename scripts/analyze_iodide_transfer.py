@@ -25,7 +25,11 @@ def crest_min(group):
 def main():
     sr={int(r["pubchem_cid"]):r for r in csv.DictReader(
         (ROOT/"results/clean_study1/shortlist.csv").open(encoding="utf-8"))}
-    ion=-4.142471526080
+    reference = json.loads((OUT/"iodide_reference.json").read_text(encoding="utf-8"))
+    iodide = reference["results"]["dmf"]
+    if not iodide["converged"] or iodide["charge"] != -1 or iodide["solvation"] != "ALPB(DMF)":
+        raise ValueError("Incompatible isolated-iodide reference")
+    ion = float(iodide["energy_hartree"])
     runs=[]
     stats=[]
     for group,cid in groups:

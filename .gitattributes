@@ -5,3 +5,4 @@ results/clean_study1/* -text
 *.py text
 *.md text
 *.toml text
+results/iodide_pilot/iodide.xyz -text

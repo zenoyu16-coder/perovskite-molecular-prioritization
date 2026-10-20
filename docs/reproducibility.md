@@ -20,6 +20,19 @@ The main results are available without rerunning the analysis:
 - [Publication sensitivity](../results/clean_study1/positive_source_stability.csv) and [family diagnostics](../results/clean_study1/family_level_diagnostics.csv)
 - [Ten candidates](../results/clean_study1/shortlist.csv) and [full candidate scores](../results/clean_study1/candidate_scores.csv)
 
+## Quantum-chemical calculations
+
+The [molecular conformer study](quantum_chemistry.md) and [iodide association study](iodide_association.md) include optimized coordinate files, input identifiers, calculation settings and electronic-energy tables.
+
+The iodide reference can be checked without xTB:
+
+```bash
+python scripts/run_iodide_reference.py --check-only
+pytest -q tests/test_iodide_pilot.py
+```
+
+The tests recompute ionic association energies and DFT double differences from published total energies. The full reference-state calculation requires xTB 6.7.1. See the ion-pair methods for the steps to regenerate it and the raw PySCF energy records.
+
 ## Rebuilding from source data
 
 The full build also requires the device matrices, ionic structure registry and PubChem retrieval snapshot listed in [data/README.md](../data/README.md). These files are stored separately from the public code.

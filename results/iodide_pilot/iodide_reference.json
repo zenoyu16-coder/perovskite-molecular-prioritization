@@ -1,0 +1,25 @@
+{
+  "method": "GFN2-xTB 6.7.1 single-point, charge -1",
+  "geometry": "single iodine atom at Cartesian origin, Angstrom",
+  "input_sha256": "4a298a31084c8974b407948b9c09eda31d01678f5098cb4e1acb55a3dab96876",
+  "electronically_isolated_atom": true,
+  "results": {
+    "dmf": {
+      "energy_hartree": -4.14247152608,
+      "charge": -1,
+      "gfn": 2,
+      "solvation": "ALPB(DMF)",
+      "optimized": false,
+      "converged": true
+    },
+    "gas": {
+      "energy_hartree": -4.060355599036,
+      "charge": -1,
+      "gfn": 2,
+      "solvation": "gas",
+      "optimized": false,
+      "converged": true
+    }
+  },
+  "note": "Reference energies are used with the matching xTB/solvent model; gas results are not used for the main solution comparison."
+}

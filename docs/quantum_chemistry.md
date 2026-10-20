@@ -46,13 +46,13 @@ Both calculations favor the ortho isomer in the specified continuum environment.
 
 [DFT energies](../results/quantum_pilot/dft_singlepoints.csv) · [Geometry input files](../results/quantum_pilot/dft_inputs/) · [Method comparison](../results/quantum_pilot/dft_comparison.json)
 
-## Interpretation and next calculation
+## Iodide association
 
-The machine-learning tie reflects the two-descriptor representation. The conformational analysis identifies an additional distinction: the position of the polar substituent changes whether the ammonium group can contact an oxygen atom within the same cation.
+The free-cation conformational analysis identified different ammonium?oxygen contact geometries within both positional-isomer pairs. This observation was followed by explicit iodide-ion-pair calculations in implicit DMF using multiple initial binding sites.
 
-The next atomistic question is whether intramolecular N–H···O contacts alter the geometry or strength of ammonium–iodide interactions. A consistent ion-pair or Pb–I interface model, evaluated across several starting arrangements, would test this. Isolated-cation calculations cannot establish spacer incorporation, defect passivation, or photovoltaic performance.
+For the methylsulfonyl pair, GFN2-xTB and fixed-geometry PBE0 single points give ortho-minus-meta iodide association-energy differences of +3.58 and +3.64 kcal/mol, respectively. The fluoro/methoxy pair gives a +1.54 kcal/mol difference between isomers A and B at GFN2-xTB. Full energy tables, source geometries and the reference-state construction are in [iodide association](iodide_association.md).
 
-The DFT calculation is currently a fixed-geometry single-point comparison. Periodic models, DFT geometry relaxation, dispersion/basis convergence and explicit counterions have not been calculated.
+Both studies concern isolated cations and ion pairs. Crystal incorporation, defect passivation and photovoltaic performance were not calculated. The DFT work uses fixed GFN2-xTB geometries.
 
 ## Reproduction
 
@@ -81,4 +81,4 @@ python scripts/run_quantum_dft.py --group sulfonyl_meta
 python scripts/run_quantum_dft.py --group sulfonyl_ortho
 ```
 
-The xTB and DFT SCF logs and intermediate files are stored separately from Git. The published coordinates, energies, source IDs and analysis scripts are included in this branch.
+The xTB and DFT SCF logs and intermediate files are stored separately from Git. Published coordinates, input identifiers, electronic energies and analysis scripts are included in the repository.

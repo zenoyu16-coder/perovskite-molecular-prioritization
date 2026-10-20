@@ -68,12 +68,17 @@ def bond_summary(cation_smiles, xyzfile):
                 internal_N_H_O_max_deg=hbond["max_NHO_deg"])
 
 def read_atomic_energy(medium):
-    p=RAW/"isolated_iodide"/f"iodide_{medium}.stdout"
-    t=p.read_text(encoding="utf-8")
-    if "normal termination of xtb" not in t:raise RuntimeError("Unconverged iodide "+medium)
-    vals=E_PATTERN.findall(t)
-    if not vals:raise ValueError(p)
-    return float(vals[-1])
+    """Read the independently computed -1 iodide reference."""
+    path = OUT / "iodide_reference.json"
+    ref = json.loads(path.read_text(encoding="utf-8"))
+    record = ref["results"][medium]
+    if not record["converged"] or record["charge"] != -1 or record["gfn"] != 2:
+        raise ValueError("Incompatible isolated-iodide reference for " + medium)
+    expected = "ALPB(DMF)" if medium == "dmf" else "gas"
+    if record["solvation"] != expected:
+        raise ValueError("Solvent mismatch in iodide reference")
+    return float(record["energy_hartree"])
+
 
 def cation_energy(group,medium):
     if medium=="dmf":

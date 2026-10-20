@@ -35,13 +35,26 @@ def test_xtb_and_crest_results():
 
 
 def test_dft_source_and_energy():
-    s=json.loads((OUT/"dft_comparison.json").read_text(encoding="utf-8"))
-    assert s["n_converged_scf"]==2
-    assert s["dft_ortho_minus_meta_kcal_mol"]<0
-    assert s["xtb_ortho_minus_meta_kcal_mol"]<0
-    dft=pd.read_csv(OUT/"dft_singlepoints.csv")
-    assert len(dft)==2 and dft.converged.all()
-    for group in ("sulfonyl_meta","sulfonyl_ortho"):
+    from pytest import approx
+
+    report=json.loads((OUT/"dft_comparison.json").read_text(encoding="utf-8"))
+    dft=pd.read_csv(OUT/"dft_singlepoints.csv").set_index("group")
+    assert len(dft)==2
+    assert dft["converged"].all()
+    assert report["n_converged_scf"] == int(dft["converged"].sum())
+
+    group_a, group_b = "sulfonyl_meta", "sulfonyl_ortho"
+    delta_dft=(dft.loc[group_b,"energy_hartree"] -
+               dft.loc[group_a,"energy_hartree"])*627.509474
+    assert report["dft_ortho_minus_meta_kcal_mol"] == approx(delta_dft, abs=2e-6)
+
+    crest=pd.read_csv(OUT/"crest_summary.csv").set_index("group")
+    delta_xtb=(crest.loc[group_b,"E_min_hartree"] -
+               crest.loc[group_a,"E_min_hartree"])*627.509474
+    assert report["xtb_ortho_minus_meta_kcal_mol"] == approx(delta_xtb, abs=2e-5)
+
+    for group in (group_a,group_b):
         geom=OUT/"dft_inputs"/f"{group}.xyz"
         lines=geom.read_text(encoding="utf-8").splitlines()
-        assert int(lines[0])==24 and len(lines)>=26
+        assert int(lines[0])==int(dft.loc[group,"n_atoms"])
+        assert len(lines)>=int(dft.loc[group,"n_atoms"])+2

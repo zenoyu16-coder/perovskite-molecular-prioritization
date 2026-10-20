@@ -1,0 +1,3 @@
+group,energy_hartree,converged,xc,basis,solvation,iodine_ecp,charge,n_atoms,input_xyz
+sulfonyl_meta,-1211.9378899200328,True,pbe0,def2-svp,ddCOSMO(DMF;eps=36.7),def2-svp ECP28,0,25,results/iodide_pilot/sulfonyl_meta_dmf_lowest.xyz
+sulfonyl_ortho,-1211.937601644309,True,pbe0,def2-svp,ddCOSMO(DMF;eps=36.7),def2-svp ECP28,0,25,results/iodide_pilot/sulfonyl_ortho_dmf_lowest.xyz

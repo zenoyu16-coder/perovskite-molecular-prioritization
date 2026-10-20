@@ -52,17 +52,20 @@ Association free energies, explicit solvent coordination, basis-set superpositio
 
 ## Files
 
-The reproducible numerical record includes [all optimized sulfonyl ion pairs](../results/iodide_pilot/optimized_ion_pairs.csv), [the corresponding energy comparisons](../results/iodide_pilot/association_differences.json), [DFT differences](../results/iodide_pilot/dft_association_check.json), and [the fluoro/methoxy transfer test](../results/iodide_pilot/fluoro_transfer.json). Starting-pose metadata and selected optimized XYZ structures are in [results/iodide_pilot](../results/iodide_pilot/).
+The reproducible numerical record includes [all optimized sulfonyl ion pairs](../results/iodide_pilot/optimized_ion_pairs.csv), [the corresponding energy comparisons](../results/iodide_pilot/association_differences.json), [DFT differences](../results/iodide_pilot/dft_association_check.json), [raw DFT ion-pair energies](../results/iodide_pilot/dft_pair_singlepoints.csv), and [the fluoro/methoxy transfer test](../results/iodide_pilot/fluoro_transfer.json). Starting-pose metadata and selected optimized XYZ structures are in [results/iodide_pilot](../results/iodide_pilot/).
 
 The coordinate-generation, xTB optimization and analysis scripts are `scripts/prepare_iodide_pairs.py`, `scripts/run_iodide_xtb.py`, `scripts/analyze_iodide_pairs.py`, and `scripts/analyze_iodide_transfer.py`. DFT input structures are the lowest-energy `*_dmf_lowest.xyz` files. Use `scripts/run_iodide_dft.py` for the two sulfonyl single points and `scripts/analyze_iodide_dft.py` to compute the double difference.
 
-The raw GFN2-xTB and PySCF logs remain in the local calculation scratch directory.
+The raw GFN2-xTB and PySCF logs remain in the local calculation scratch directory; the published DFT ion-pair and isolated-cation energy tables permit the double difference to be recalculated without access to the logs.
 
 ### Rebuilding the pilot
 
-The following commands use the published CREST ensembles. Set `STUDY1_QM_WORKDIR` to a writable scratch directory and `STUDY1_XTB_BIN` to the xTB 6.7.1 executable, or use the recorded defaults on the originating computer.
+The following commands use the published CREST ensembles. Set `STUDY1_QM_WORKDIR` to a writable scratch directory and `STUDY1_XTB_BIN` to an xTB 6.7.1 executable. Run the independent iodide reference calculation in the same environment as the ion pairs.
 
 ```bash
+# Compute isolated I- reference in gas and ALPB(DMF) using GFN2-xTB
+python scripts/run_iodide_reference.py
+
 # Prepare the two molecule pairs (RDKit/Python)
 python scripts/prepare_iodide_pairs.py --pair sulfonyl
 python scripts/prepare_iodide_pairs.py --pair fluoromethoxy
@@ -76,7 +79,8 @@ python scripts/analyze_iodide_pairs.py
 python scripts/analyze_iodide_transfer.py
 python scripts/run_iodide_dft.py --group sulfonyl_meta
 python scripts/run_iodide_dft.py --group sulfonyl_ortho
+python scripts/export_iodide_dft_energies.py
 python scripts/analyze_iodide_dft.py
 ```
 
-The iodide single-point reference in GFN2-xTB uses one iodine atom with charge -1 and ALPB(DMF), as specified in the energy-reference fields of the released result table. It is required for absolute GFN2-xTB association energies; it cancels from the DFT double difference.
+The reference calculation writes [iodide.xyz](../results/iodide_pilot/iodide.xyz) and [iodide_reference.json](../results/iodide_pilot/iodide_reference.json), including both gas and ALPB(DMF) total energies. To inspect the published reference without an xTB installation, use `python scripts/run_iodide_reference.py --check-only`. The isolated iodide contribution cancels from the DFT double difference. The regression tests recompute the reported association energies directly from the released single-point energies.
