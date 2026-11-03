@@ -1,7 +1,7 @@
 """Generate charge-consistent conformers of two matched positional-isomer pairs.
 
 Preparation uses ETKDGv3 and MMFF94s only. No QM energies are inferred
-at this stage. Raw coordinates remain on the local D: drive.
+at this stage. Raw coordinates use the configured, Git-ignored scratch directory.
 """
 from __future__ import annotations
 import argparse

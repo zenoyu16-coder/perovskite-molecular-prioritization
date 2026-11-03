@@ -1,84 +1,76 @@
-# Molecular prioritization of organic spacers for layered perovskite solar cells
+# Molecular Prioritization of Organic Spacers for Layered Perovskite Solar Cells
 
-Organic spacer cations influence the structure and performance of layered halide perovskites, but published device results cover relatively few distinct molecules. This project uses molecular descriptors and reported solar-cell measurements to rank spacer candidates for experimental screening.
+This project uses published device measurements to prioritize organic spacer cations for layered perovskite solar cells. Publication-aware context adjustment converts literature PCE records into spacer-level performance labels. Interpretable molecular models then guide a PubChem screen, yielding ten candidate structures. Calculations on two shortlisted positional-isomer pairs examine local conformations and iodide interactions that the selected descriptors cannot distinguish.
 
-The dataset contains 749 qualifying devices from 134 publications and 42 identified spacer cations, including 31 monovalent cations. The analysis combines publication-aware adjustment of device performance, molecular-level validation, and screening of PubChem-derived amine candidates.
+## Dataset and Approach
 
-## Dataset and methods
+The device records come from [Choi et al., *Solar Energy* 303 (2026), 114112](https://doi.org/10.1016/j.solener.2025.114112) and the accompanying [Duke data deposit](https://doi.org/10.7924/r40g3xh1d). Of 792 source records, 749 contain one identified spacer and meet the study criteria. They cover 134 publications and 42 spacer identities. The main ranking analysis uses the 31 monovalent spacers; the full 42-spacer cohort is reported separately.
 
-The device data were assembled from [Choi et al., *Solar Energy* 303 (2026) 114112](https://doi.org/10.1016/j.solener.2025.114112) and the associated [data deposit](https://doi.org/10.7924/r40g3xh1d).
+A ridge context model adjusts for recorded composition, device architecture, area, transport layers and their deposition methods. DOI-grouped out-of-fold PCE residuals are summarized by their median for each spacer. An empirical upper-quintile threshold defines the classification target. The ionic structures are represented by 35 RDKit descriptors.
 
-We retained records with one identified spacer cation and represented each reported ionic species with 35 RDKit descriptors. A ridge regression model accounts for device composition, architecture and processing conditions. DOI-grouped out-of-fold PCE residuals are aggregated by spacer identity; molecules above the 80th percentile form the positive class.
+For each held-out spacer split, context fitting and the label threshold use the training chemistry. A separate source-disjoint analysis examines dependence on publications shared across spacer identities. These targets describe literature-associated molecular performance after adjustment for the available device context.
 
-Logistic regression with two or 35 descriptors and XGBoost with 35 descriptors were compared using repeated held-out spacer splits and leave-one-molecular-family-out evaluation. Context fitting and label thresholds are recalculated within the training partitions.
+[Methods and validation protocols](docs/methods.md) · [Ionic representation](docs/chemical-representation.md) · [Dataset definitions](data/README.md)
 
-[Methods](docs/methods.md) · [Chemical representation](docs/chemical-representation.md)
+## Model Evaluation
 
-## Model evaluation
+![Average precision for held-out monovalent spacers](results/clean_study1/evaluation.png)
 
-![Average precision across chemistry and family holdouts](results/clean_study1/evaluation.png)
+Average precision (AP) on the **same 31-spacer cohort**:
 
-Average precision (AP) for the 31 monovalent spacers:
-
-| Model | Chemistry holdout | Family holdout |
+| Model | Repeated spacer holdout | Molecular-family holdout |
 | --- | ---: | ---: |
 | Random ranking | 0.285 | 0.292 |
 | Logistic regression, 2 descriptors | 0.420 | 0.462 |
 | Logistic regression, 35 descriptors | 0.449 | 0.398 |
 | XGBoost, 35 descriptors | 0.412 | 0.431 |
 
-The two-descriptor logistic model (MolLogP and carbon-heavy-atom fraction) was retained for candidate screening. Model choice followed inspection of the exploratory validation results, so the AP values should be read as model comparisons pending an independent experimental test.
+Repeated holdout uses ten repetitions of five-fold spacer splits; AP is computed from each repetition's pooled held-out predictions. The figure labels this protocol “Nested” because the targets are reconstructed inside the outer splits. Family AP pools predictions from eight excluded-family fits. Two families contain both target classes, so pooled family AP also reflects ordering between families.
 
-Publication coverage remains uneven: five of the seven positive monovalent spacers have device evidence from only one DOI. The source-deletion and family-holdout analyses are provided alongside the main results.
+The 35-descriptor logistic model has the highest repeated-holdout AP. The two-descriptor model, using **MolLogP and carbon-heavy-atom fraction**, provides a compact chemical interpretation and was retained for screening after exploratory inspection of both validation settings. Its reported AP is therefore an exploratory model comparison, not an independent estimate after model selection.
 
-[Full benchmarks](results/clean_study1/benchmark.csv) · [Held-out predictions](results/clean_study1/heldout_predictions.csv) · [Publication sensitivity](results/clean_study1/positive_source_stability.csv) · [Family diagnostics](results/clean_study1/family_level_diagnostics.csv)
+Five of the seven positive monovalent spacers have evidence from one DOI. Publication deletion, source-disjoint evaluation and family diagnostics accompany the main benchmark.
 
-## Candidate screening
+[Frozen benchmarks](results/clean_study1/benchmark.csv) · [Held-out predictions](results/clean_study1/heldout_predictions.csv) · [Source sensitivity](results/clean_study1/positive_source_stability.csv) · [Family diagnostics](results/clean_study1/family_level_diagnostics.csv)
 
-![Structures of the ten selected spacer candidates](results/clean_study1/candidate_structures.png)
+## Molecular Screening
 
-The virtual screen starts from 13,595 PubChem retrieval records. Chemical filtering yields 3,296 eligible ionic structures, of which 2,087 are monovalent. Candidates are scored with 30 bootstrap fits of the selected logistic model and filtered by model score, molecular similarity to training spacers, and estimated synthetic accessibility. The intersection retains 121 molecules; Pareto filtering reduces this to 74, followed by diversity selection of ten structures.
+The screen starts from 13,595 PubChem retrieval records. Chemical eligibility checks and amine-site protonation produce 3,296 candidate ionic representations, including 2,087 monovalent candidates. Thirty bootstrap fits of the selected logistic model provide a mean score and score variation for each candidate.
 
-The ten selected molecules fall within the empirically defined moderate-extrapolation range, with maximum Morgan similarity to a training monovalent spacer of approximately 0.31–0.41. The model scores are uncalibrated, and the shortlist order reflects diversity selection rather than descending predicted score.
+Selection combines model score, similarity and descriptor distance to training molecules, estimated synthetic accessibility, Pareto filtering and molecular diversity. The score/domain/accessibility intersection contains 121 candidates; 74 are Pareto-optimal. Diversity selection gives the final ten structures.
 
-[Ten-molecule shortlist](results/clean_study1/shortlist.csv) · [All monovalent candidate scores](results/clean_study1/candidate_scores.csv) · [Screening counts](results/clean_study1/screening_counts.json)
+![Ionic structures of the ten diversity-selected candidates; labels show PubChem CID and bootstrap mean model score](results/clean_study1/candidate_structures.png)
 
-## Quantum-chemical comparison
+All ten fall in the screen's empirical moderate-extrapolation category, with maximum Morgan similarity to a training spacer of 0.314–0.407. The CSV records the neutral precursor and modeled cation for each CID. Shortlist order follows diversity selection; scores are uncalibrated classifier outputs. The shortlist is a set of candidates for experimental testing, and no prospective fabrication or PCE validation is included.
 
-Two positional-isomer pairs in the shortlist have identical scores from the selected two-descriptor model. We examined their conformations using RDKit, GFN2-xTB, and CREST; the methylsulfonylbenzylammonium pair was also evaluated with PBE0/def2-SVP single-point DFT.
+[Ten-candidate shortlist](results/clean_study1/shortlist.csv) · [All monovalent scores](results/clean_study1/candidate_scores.csv) · [Filter counts](results/clean_study1/screening_counts.json)
 
-![CREST conformers of the methylsulfonylbenzylammonium isomers](results/quantum_pilot/crest_isomer_conformations.png)
+## Quantum-Chemical Analysis
 
-For the meta isomer, none of the 11 CREST conformers within 3 kcal/mol of the minimum has an intramolecular N–H···O contact. All four low-energy ortho conformers meet the same geometric criterion. PBE0 single-point calculations on the lowest structures, with an implicit DMF dielectric, place the ortho isomer 3.46 kcal/mol below the meta isomer in electronic energy.
+Two shortlisted positional-isomer pairs receive identical two-descriptor scores: meta/ortho methylsulfonylbenzylammonium and two fluoro/methoxybenzylammonium regioisomers. RDKit conformers, GFN2-xTB optimizations and CREST sampling resolve differences in their local ammonium–oxygen geometry.
 
-Calculations of the corresponding iodide ion pairs in implicit DMF favor the sulfonyl meta isomer by 3.58 kcal/mol (GFN2-xTB) and 3.64 kcal/mol (PBE0/def2-SVP fixed-geometry single points). A second positional-isomer pair shows a 1.54 kcal/mol preference for isomer B using GFN2-xTB. These electronic energies are specific to the isolated ion-pair model. [Ion-pair calculations](docs/iodide_association.md).
+![CREST conformations of the methylsulfonylbenzylammonium isomers](results/quantum_pilot/crest_isomer_conformations.png)
 
-[Computational methods and results](docs/quantum_chemistry.md) · [CREST conformer data](results/quantum_pilot/crest_conformers.csv) · [DFT energies](results/quantum_pilot/dft_singlepoints.csv)
+Within 3 kcal/mol of the CREST minimum in implicit DMF, none of the 11 meta conformers meets the stated intramolecular N–H···O contact criterion; all four low-energy ortho conformers do. PBE0/def2-SVP single-point energies on the lowest CREST/GFN2-xTB structures, using ddCOSMO with a DMF dielectric, place the **isolated ortho cation 3.46 kcal/mol below meta**.
 
-## Experimental follow-up
+Adding one explicit iodide gives a different comparison: electronic association relative to the separated cation and iodide. In implicit DMF, association is more favorable for **meta by 3.58 kcal/mol at GFN2-xTB and 3.64 kcal/mol at PBE0/def2-SVP**. The fluoro/methoxy pair favors isomer B by 1.54 kcal/mol at GFN2-xTB. DFT geometries remain fixed at the GFN2-xTB minima. These isolated-cation and ion-pair energies describe local molecular interactions; they do not quantify film stability or changes in device PCE.
 
-The proposed validation compares four high-ranked candidates with four chemically matched middle- or lower-ranked candidates and four score-blind selections. Two established spacer compounds serve as batch references. The plan uses a common fabrication procedure, three independent batches and six devices per chemistry per batch, with PCE evaluated at the molecular level.
+[Conformer methods and energies](docs/quantum_chemistry.md) · [Iodide association and reference states](docs/iodide_association.md) · [Raw DFT energy table](results/iodide_pilot/dft_pair_singlepoints.csv)
 
-Fabrication and prospective model testing have not yet been performed.
+## Code and Reproducibility
 
-[Experimental protocol](docs/experimental-validation.md)
-
-## Code and data
+Python 3.13 and pinned packages are specified in [pyproject.toml](pyproject.toml). From the repository root:
 
 ```bash
-# Python 3.13
-pip install -e . pytest
-
-# Check the released tables and figures against their SHA-256 hashes
+python -m pip install -e ".[test]"
 python scripts/verify_results.py
-
-# With the original input matrices and PubChem pool available
-python scripts/run_clean_study1.py --check
-python scripts/run_clean_study1.py --rebuild
+python scripts/verify_repository.py
+python scripts/run_iodide_reference.py --check-only
+python -m pytest -q
 ```
 
-The repository includes the analysis code, generated results, model diagnostics and candidate structures. The complete source matrices, curated ionic registry and original PubChem snapshot are kept separately; rebuilding requires the exact inputs described in [data/README.md](data/README.md). Source and output fingerprints are recorded in the [results manifest](results/clean_study1/manifest.json).
+These commands inspect stored artifacts and run tests without retraining the ranking models or launching quantum calculations. Tests requiring the nonredistributed source inputs are skipped in a public checkout. The [results manifest](results/clean_study1/manifest.json) records the frozen input/code fingerprints, parameters and output hashes.
 
-The main entry point is [`scripts/run_clean_study1.py`](scripts/run_clean_study1.py). Molecular feature generation and model evaluation are in [`src/perovskite_prioritization/`](src/perovskite_prioritization/), with tests in [`tests/`](tests/).
+A complete rebuild requires the exact device matrices, curated ionic registry and PubChem snapshot described in [data/README.md](data/README.md), plus a LaTeX installation. Instructions for checking those inputs and rebuilding are in [docs/reproducibility.md](docs/reproducibility.md). The repository includes `src/`, analysis and calculation `scripts/`, `tests/`, and three result directories for molecular ranking, conformers and iodide association.
 
-[Reproducibility notes](docs/reproducibility.md) · [License](LICENSE) · [Citation](CITATION.cff)
+[Reproducibility guide](docs/reproducibility.md) · [Proposed experimental validation](docs/experimental-validation.md) · [Code license](LICENSE) · [Citation](CITATION.cff)

@@ -1,8 +1,9 @@
 # Generated research outputs are preserved byte-for-byte for SHA-256 provenance checks.
 results/clean_study1/* -text
 
-# Versioned text source files retain their normal Git text handling.
-*.py text
-*.md text
-*.toml text
+# Source-file hashes in the manifest were recorded with LF line endings.
+# Keep Windows checkouts byte-identical to those source records.
+*.py text eol=lf
+*.md text eol=lf
+*.toml text eol=lf
 results/iodide_pilot/iodide.xyz -text

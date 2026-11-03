@@ -11,7 +11,7 @@ import pandas as pd
 from analyze_iodide_pairs import bond_summary
 
 ROOT=Path(__file__).resolve().parents[1]
-RAW=Path(os.environ.get("STUDY1_QM_WORKDIR","D:/AI4S/study1_quantum_pilot"))
+RAW=Path(os.environ.get("STUDY1_QM_WORKDIR",str(ROOT/"data/external/study1_qm")))
 PAIR=RAW/"iodide_association_fluoromethoxy"
 OUT=ROOT/"results/iodide_pilot"
 KCAL=627.509474

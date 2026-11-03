@@ -60,7 +60,7 @@ The raw GFN2-xTB and PySCF logs remain in the local calculation scratch director
 
 ### Rebuilding the pilot
 
-The following commands use the published CREST ensembles. Set `STUDY1_QM_WORKDIR` to a writable scratch directory and `STUDY1_XTB_BIN` to an xTB 6.7.1 executable. Run the independent iodide reference calculation in the same environment as the ion pairs.
+The following Bash commands launch new calculations using the published CREST ensembles; they are not needed to verify the released results. All scripts default to the Git-ignored `data/external/study1_qm/` scratch directory. For Linux or WSL, set `STUDY1_QM_WORKDIR` to a writable absolute path and `STUDY1_XTB_BIN` to an xTB 6.7.1 executable, or put xTB on PATH. Run the isolated iodide reference calculation in the same environment as the ion pairs. PySCF 2.11.0 is required for the DFT commands.
 
 ```bash
 # Compute isolated I- reference in gas and ALPB(DMF) using GFN2-xTB

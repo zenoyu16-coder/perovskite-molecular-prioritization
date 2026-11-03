@@ -6,6 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "perovskite-molecular-prioritization"
 version = "1.0.0"
 description = "Literature-guided molecular prioritization of organic spacer cations in layered perovskite photovoltaics."
+readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
   "numpy==2.4.6",
@@ -20,6 +21,13 @@ dependencies = [
   "PyYAML==6.0.3",
   "Pillow==12.2.0",
 ]
+
+[project.optional-dependencies]
+test = ["pytest==9.0.2"]
+
+[project.urls]
+Repository = "https://github.com/zenoyu16-coder/perovskite-molecular-prioritization"
+Documentation = "https://github.com/zenoyu16-coder/perovskite-molecular-prioritization/tree/main/docs"
 
 [tool.setuptools.packages.find]
 where = ["src"]

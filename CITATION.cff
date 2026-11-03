@@ -1,7 +1,9 @@
 cff-version: 1.2.0
 message: "If you reuse the code or derived data, please cite this repository and the original device-data source."
-title: "Literature-guided prioritization of organic spacer cations for layered perovskite solar cells"
+title: "Molecular Prioritization of Organic Spacers for Layered Perovskite Solar Cells"
 type: software
+repository-code: "https://github.com/zenoyu16-coder/perovskite-molecular-prioritization"
+url: "https://github.com/zenoyu16-coder/perovskite-molecular-prioritization"
 authors:
   - family-names: "Yu"
     given-names: "Min-Chun"

@@ -2,7 +2,7 @@
 
 ## Molecular pairs
 
-The two-descriptor logistic ranker uses MolLogP and carbon-heavy-atom fraction. Both descriptors are insensitive to the position of a substituent on the aromatic ring. Two isomer pairs appear in the [ten-molecule shortlist](../results/clean_study1/shortlist.csv):
+The two-descriptor logistic ranker uses MolLogP and carbon-heavy-atom fraction. Their values do not distinguish the two selected positional-isomer pairs in the [ten-molecule shortlist](../results/clean_study1/shortlist.csv):
 
 | Compounds (PubChem CIDs) | Substituent pattern | Logistic2 score |
 | --- | --- | ---: |
@@ -48,7 +48,7 @@ Both calculations favor the ortho isomer in the specified continuum environment.
 
 ## Iodide association
 
-The free-cation conformational analysis identified different ammonium?oxygen contact geometries within both positional-isomer pairs. This observation was followed by explicit iodide-ion-pair calculations in implicit DMF using multiple initial binding sites.
+The free-cation conformational analysis identified different ammonium–oxygen contact geometries within both positional-isomer pairs. This observation was followed by explicit iodide-ion-pair calculations in implicit DMF using multiple initial binding sites.
 
 For the methylsulfonyl pair, GFN2-xTB and fixed-geometry PBE0 single points give ortho-minus-meta iodide association-energy differences of +3.58 and +3.64 kcal/mol, respectively. The fluoro/methoxy pair gives a +1.54 kcal/mol difference between isomers A and B at GFN2-xTB. Full energy tables, source geometries and the reference-state construction are in [iodide association](iodide_association.md).
 
@@ -56,7 +56,7 @@ Both studies concern isolated cations and ion pairs. Crystal incorporation, defe
 
 ## Reproduction
 
-Python 3.13 with RDKit generates starting conformers; CREST and xTB run under Linux. The external working directory is set by `STUDY1_QM_WORKDIR`; `STUDY1_XTB_BIN` identifies the xTB executable when it is absent from PATH.
+Python 3.13 with RDKit generates starting conformers; CREST and xTB run under Linux. All scripts share the `STUDY1_QM_WORKDIR` scratch directory, defaulting to the Git-ignored `data/external/study1_qm/`. Set this variable to an absolute writable path when moving between Windows and WSL. `STUDY1_XTB_BIN` overrides the xTB executable found on PATH. DFT additionally requires PySCF 2.11.0; inspecting the published energies does not.
 
 ```bash
 # Prepare with RDKit (Windows or Linux environment with RDKit)

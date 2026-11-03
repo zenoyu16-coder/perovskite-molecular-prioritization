@@ -20,7 +20,7 @@ from rdkit import Chem
 from analyze_quantum_crest import load_ensemble
 from prepare_quantum_conformers import ROOT, RESULTS, CANDIDATES
 
-SCRATCH=Path(os.environ.get("STUDY1_QM_WORKDIR","D:/AI4S/study1_quantum_pilot"))
+SCRATCH=Path(os.environ.get("STUDY1_QM_WORKDIR",str(ROOT/"data/external/study1_qm")))
 OUT=SCRATCH/"iodide_association"
 PAIR_LIST=OUT/"pair_inputs.csv"
 H_I_INITIAL=2.70

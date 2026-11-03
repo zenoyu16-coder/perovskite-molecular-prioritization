@@ -9,9 +9,10 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import argparse,csv,json,os,re,shutil,subprocess,time
 from pathlib import Path
 
-ROOT=Path(os.environ.get("STUDY1_QM_WORKDIR","/mnt/d/AI4S/study1_quantum_pilot"))
+PROJECT_ROOT=Path(__file__).resolve().parents[1]
+ROOT=Path(os.environ.get("STUDY1_QM_WORKDIR",str(PROJECT_ROOT/"data/external/study1_qm")))
 BASE=ROOT / os.environ.get("STUDY1_IONPAIR_SUBDIR", "iodide_association")
-XTB=Path(os.environ.get("STUDY1_XTB_BIN","/mnt/d/AI4S/tools/xtb-6.7.1/xtb-dist/bin/xtb"))
+XTB=Path(os.environ.get("STUDY1_XTB_BIN",shutil.which("xtb") or "xtb"))
 RE_E=re.compile(r"TOTAL ENERGY\s+([-+\d.]+)\s+Eh")
 
 def run(job,medium):

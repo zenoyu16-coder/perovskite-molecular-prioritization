@@ -12,7 +12,7 @@ import pyscf
 
 ROOT=Path(__file__).resolve().parents[1]
 OUT=ROOT/"results/iodide_pilot"
-WORK=Path(os.environ.get("STUDY1_QM_WORKDIR","/mnt/d/AI4S/study1_quantum_pilot"))
+WORK=Path(os.environ.get("STUDY1_QM_WORKDIR",str(ROOT/"data/external/study1_qm")))
 XC="pbe0"
 BASIS="def2-svp"
 EPS=36.7

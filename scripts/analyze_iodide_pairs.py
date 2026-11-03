@@ -16,7 +16,7 @@ from rdkit.Geometry import Point3D
 
 from prepare_quantum_conformers import ROOT, RESULTS, hbond_features
 
-WORK=Path(os.environ.get("STUDY1_QM_WORKDIR","D:/AI4S/study1_quantum_pilot"))
+WORK=Path(os.environ.get("STUDY1_QM_WORKDIR",str(ROOT/"data/external/study1_qm")))
 RAW=WORK/"iodide_association"
 OUT=ROOT/"results/iodide_pilot"
 HARTREE_TO_KCAL=627.509474

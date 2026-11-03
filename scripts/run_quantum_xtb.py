@@ -1,7 +1,7 @@
 """Run GFN2-xTB optimizations for Study 1 positional-isomer conformers.
 
-Intended for the connected WSL Ubuntu environment, with the vetted local xTB
-binary. Source files and raw outputs are kept on D:, outside the Git repository.
+Intended for Linux or WSL with xTB on PATH or set by STUDY1_XTB_BIN.
+Source files and raw outputs use the configured, Git-ignored scratch directory.
 This program performs actual electronic-structure calculations.
 """
 from __future__ import annotations
